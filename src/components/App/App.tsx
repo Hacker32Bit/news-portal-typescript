@@ -1,9 +1,9 @@
-import Header from "../Header"
-import Navbar from "../Navbar"
+import Header from "../Header";
 
-export default function App(){
-    return(<>
-        <Navbar />
-        <Header />
-    </>)
+export default function App() {
+  return (
+    <>
+      <Header />
+    </>
+  );
 }
