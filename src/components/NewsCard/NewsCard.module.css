@@ -1,0 +1,11 @@
+.card {
+    display: inline-block;
+    width: 200px;
+    padding: 20px;
+    margin: 20px;
+    background-color: #7f8fa6;
+}
+
+.card img {
+    width: 200px;
+}
