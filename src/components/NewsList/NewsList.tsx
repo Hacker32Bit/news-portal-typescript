@@ -1,23 +1,19 @@
 import React from "react";
-import styles from "./NewsList.module.css"
+import styles from "./NewsList.module.css";
 import NewsCard from "../NewsCard";
-
-interface NewsListProps {
-    news: string[]
-}
+import { NewsListProps } from "./NewsList.inteface";
+import { NewsCardProps } from "../NewsCard/NewsCard.interface";
 
 const NewsList: React.FC<NewsListProps> = ({ news }) => {
-    return (
-        <div>
-            <NewsCard
-            id={2}
-            title="First news"
-            content="First news content text"
-            image="https://imgv3.fotor.com/images/blog-cover-image/part-blurry-image.jpg"
-            publishDate={(new Date()).toDateString()}
-            />
+  return (
+    <div className={styles.list}>
+      {news.map((item: NewsCardProps) => (
+        <div className={styles.card}>
+          <NewsCard {...item} />
         </div>
-    )
-}
+      ))}
+    </div>
+  );
+};
 
-export default NewsList
+export default NewsList;

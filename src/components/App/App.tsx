@@ -1,12 +1,43 @@
 import Header from "../Header";
-import NewsCard from "../NewsCard";
+import NewsList from "../NewsList";
 
 export default function App() {
+
+  const news = [
+    {
+      id: 1,
+      title: 'New title 1',
+      content: 'News Content 1',
+      image: 'https://images.unsplash.com/photo-1631771970274-d7f0442bd28b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDExfHx8ZW58MHx8fHx8&w=1000&q=80',
+      publishDate: (new Date().toDateString())
+    },
+    {
+      id: 2,
+      title: 'New title 2',
+      content: 'News Content 2',
+      image: 'https://imgv3.fotor.com/images/slider-image/a-man-holding-a-camera-with-image-filter.jpg',
+      publishDate: (new Date().toDateString())
+    },
+    {
+      id: 3,
+      title: 'New title 3',
+      content: 'News Content 3',
+      image: 'https://yourblogworks.com/wp-content/uploads/2016/07/Free-images-1024x683.jpg',
+      publishDate: (new Date().toDateString())
+    },
+    {
+      id: 4,
+      title: 'New title 4',
+      content: 'News Content 4',
+      image: 'https://img.freepik.com/premium-photo/hand-holding-camera-dslr-travel-river-sunset-holiday-travel-vintage_10541-1063.jpg',
+      publishDate: (new Date().toDateString())
+    }
+  ]
+
   return (
     <>
       <Header />
-      <NewsCard id={1} title={"title 1"} content={"text 1"} publishDate={"2023-08-15"} image={"https://imgv3.fotor.com/images/blog-cover-image/part-blurry-image.jpg"}/>
-      <NewsCard id={2} title={"title 2"} content={"text 2"} publishDate={"2023-04-26"} image={"https://images.unsplash.com/photo-1575936123452-b67c3203c357?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D"}/>
+      <NewsList news={news} />
     </>
   );
 }

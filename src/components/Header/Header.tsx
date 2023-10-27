@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./Header.module.css";
+import Profile from "../Profile";
 
 const Header: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const Header: React.FC = () => {
           </li>
         </ul>
       </nav>
+      <Profile />
     </header>
   );
 }

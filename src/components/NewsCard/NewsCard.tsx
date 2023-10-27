@@ -1,13 +1,6 @@
 import React from "react";
 import styles from "./NewsCard.module.css";
-
-interface NewsCardProps {
-  id: number;
-  title: string;
-  content: string;
-  image: string;
-  publishDate: string;
-}
+import { NewsCardProps } from "./NewsCard.interface";
 
 const NewsCard: React.FC<NewsCardProps> = ({
   id,
