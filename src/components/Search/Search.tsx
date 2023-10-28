@@ -1,31 +1,61 @@
 import React, { useState } from "react";
 import styles from "./Seacrh.module.css";
-import { SearchAutocompliteListProps } from "./Search.interface";
+import {
+  SearchAutocompliteProps,
+  SearchAutocompliteListProps,
+} from "./Search.interface";
 
 const Search: React.FC<SearchAutocompliteListProps> = ({
   searchAutocomplite,
 }) => {
-  const [showResult, setShowResult] = useState(false);
-  const [searchInput, setSearchInput] = useState("");
+  const [searchText, setSearchText] = useState<string>("");
+  const [filteredItems, setFilteredItems] = useState<SearchAutocompliteProps[]>(
+    []
+  );
 
-  const onChangeInput = (event: any) => {
-    if (event.target.value === "") setShowResult(false);
-    else {
-      setShowResult(true);
-      setSearchInput(event.target.value);
-    }
+  const handleSearch = (text: string) => {
+    const filtered = searchAutocomplite
+      .filter((item) => {
+        return item.text.toLowerCase().includes(text.toLowerCase());
+      })
+      .sort((a, b) => b.rating - a.rating);
+
+    setFilteredItems(filtered);
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const text = event.target.value;
+    setSearchText(text);
+    handleSearch(text);
+  };
+
+  const handleSelectedItem = (item: SearchAutocompliteProps) => {
+    setSearchText(item.text);
+    setFilteredItems([]);
   };
 
   return (
     <div className={styles.search}>
-      <input type="text" onChange={onChangeInput} value={searchInput}></input>
+      <input
+        type="text"
+        onChange={handleInputChange}
+        value={searchText}
+      ></input>
       <button className={styles.search_btn}>Search</button>
 
-      {showResult ? (
+      {filteredItems.length ? (
         <div className={styles.result}>
-          <div className={styles.result_item}>
-            <span>Text 1</span>
-          </div>
+          {filteredItems.map((item) => {
+            return (
+              <div
+                key={item.text}
+                className={styles.result_item}
+                onClick={() => handleSelectedItem(item)}
+              >
+                <span>{item.text}</span>
+              </div>
+            );
+          })}
         </div>
       ) : null}
     </div>
