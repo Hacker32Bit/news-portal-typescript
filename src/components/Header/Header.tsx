@@ -1,8 +1,13 @@
 import React from "react";
 import styles from "./Header.module.css";
 import Profile from "../Profile";
+import Search from "../Search";
+import { SearchAutocompliteListProps } from "../Search/Search.interface";
 
-const Header: React.FC = () => {
+const Header: React.FC<SearchAutocompliteListProps> = ({ searchAutocomplite }) => {
+
+  console.log(searchAutocomplite)
+
   return (
     <header className={styles.header}>
       <nav className={styles.menu}>
@@ -18,9 +23,12 @@ const Header: React.FC = () => {
           </li>
         </ul>
       </nav>
-      <Profile />
+      <div className={styles.right_side}>
+        <Profile />
+        <Search searchAutocomplite={searchAutocomplite}/>
+      </div>
     </header>
   );
-}
+};
 
-export default Header
+export default Header;

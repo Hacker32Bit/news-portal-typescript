@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import styles from "./Profile.module.css";
 
 const Profile: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const onProfile = () => {
-    setIsOpen((prev) => !isOpen);
+  const onProfile = (): void => {
+    setIsOpen((prev) => !prev);
   };
 
   return (

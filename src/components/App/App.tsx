@@ -34,9 +34,28 @@ export default function App() {
     }
   ]
 
+  const searchAutocomplite = [
+    {
+      text: "Hello",
+      rating: 0.3,
+    },
+    {
+      text: "test",
+      rating: 0.4,
+    },
+    {
+      text: "esim",
+      rating: 0.1,
+    },
+    {
+      text: "barev",
+      rating: 0.8,
+    }
+  ]
+
   return (
     <>
-      <Header />
+      <Header searchAutocomplite={searchAutocomplite}/>
       <NewsList news={news} />
     </>
   );

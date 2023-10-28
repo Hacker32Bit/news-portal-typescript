@@ -9,7 +9,7 @@ const NewsList: React.FC<NewsListProps> = ({ news }) => {
     <div className={styles.list}>
       {news.map((item: NewsCardProps) => (
         <div className={styles.card}>
-          <NewsCard {...item} />
+          <NewsCard {...item}/>
         </div>
       ))}
     </div>

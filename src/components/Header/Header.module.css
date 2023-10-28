@@ -24,3 +24,7 @@
     display: inline-block;
     margin-right: 15px;
 }
+
+.right_side {
+    display: inline;
+}
