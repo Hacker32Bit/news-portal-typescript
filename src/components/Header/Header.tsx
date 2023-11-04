@@ -3,6 +3,7 @@ import styles from "./Header.module.css";
 import Profile from "../Profile";
 import Search from "../Search";
 import { SearchAutocompliteListProps } from "../Search/Search.interface";
+import { Link } from "react-router-dom";
 
 const Header: React.FC<SearchAutocompliteListProps> = ({ searchAutocomplite }) => {
 
@@ -13,13 +14,13 @@ const Header: React.FC<SearchAutocompliteListProps> = ({ searchAutocomplite }) =
       <nav className={styles.menu}>
         <ul>
           <li>
-            <a href="#">Home</a>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <a href="#">About</a>
+            <Link to="/About">About</Link>
           </li>
           <li>
-            <a href="#">Contact</a>
+            <Link to="/Contact">Contact</Link>
           </li>
         </ul>
       </nav>

@@ -4,6 +4,7 @@ import {
   SearchAutocompliteProps,
   SearchAutocompliteListProps,
 } from "./Search.interface";
+import { preProcessFile } from "typescript";
 
 const Search: React.FC<SearchAutocompliteListProps> = ({
   searchAutocomplite,
@@ -12,6 +13,7 @@ const Search: React.FC<SearchAutocompliteListProps> = ({
   const [filteredItems, setFilteredItems] = useState<SearchAutocompliteProps[]>(
     []
   );
+  const [activeInput, setActiveInput] = useState<boolean>(false);
 
   const handleSearch = (text: string) => {
     const filtered = searchAutocomplite
@@ -34,6 +36,7 @@ const Search: React.FC<SearchAutocompliteListProps> = ({
     setFilteredItems([]);
   };
 
+
   return (
     <div className={styles.search}>
       <input
@@ -43,7 +46,7 @@ const Search: React.FC<SearchAutocompliteListProps> = ({
       ></input>
       <button className={styles.search_btn}>Search</button>
 
-      {filteredItems.length ? (
+      {activeInput ? (
         <div className={styles.result}>
           {filteredItems.map((item) => {
             return (
