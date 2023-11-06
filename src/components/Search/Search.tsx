@@ -1,68 +1,57 @@
-import React, { useState } from "react";
-import styles from "./Seacrh.module.css";
-import {
-  SearchAutocompliteProps,
-  SearchAutocompliteListProps,
-} from "./Search.interface";
-import { preProcessFile } from "typescript";
+import React, { useState } from 'react'
+import styles from './Search.module.css'
+import { Item, SearchProps } from './Search.interface'
 
-const Search: React.FC<SearchAutocompliteListProps> = ({
-  searchAutocomplite,
-}) => {
-  const [searchText, setSearchText] = useState<string>("");
-  const [filteredItems, setFilteredItems] = useState<SearchAutocompliteProps[]>(
-    []
-  );
-  const [activeInput, setActiveInput] = useState<boolean>(false);
+// useEffect
+// useRef
 
-  const handleSearch = (text: string) => {
-    const filtered = searchAutocomplite
-      .filter((item) => {
-        return item.text.toLowerCase().includes(text.toLowerCase());
-      })
-      .sort((a, b) => b.rating - a.rating);
+const Search: React.FC<SearchProps> = ({ items }) => {
 
-    setFilteredItems(filtered);
-  };
+  const [searchText, setSearchText] = useState<string>('')
+  const [filtredItems, setFiltredItems] = useState<Item[]>([])
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const text = event.target.value;
-    setSearchText(text);
-    handleSearch(text);
-  };
+  const handleSearch = (text: string): void => {
+    const filtred: Item[] = items.filter((item) => {
+      return item.text.toLowerCase().includes(text.toLowerCase())
+    }).sort((a, b) => b.rating - a.rating)
 
-  const handleSelectedItem = (item: SearchAutocompliteProps) => {
-    setSearchText(item.text);
-    setFilteredItems([]);
-  };
+    setFiltredItems(filtred)
+  }
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const text = event.target.value
+    setSearchText(text)
+    handleSearch(text)
+  }
+
+  const handleSelectItem = (item: Item): void => {
+    setSearchText(item.text)
+    setFiltredItems([])
+  }
 
   return (
-    <div className={styles.search}>
+    <div className={styles.searchBox}>
       <input
-        type="text"
+        type='text'
+        placeholder='Search...'
+        className={styles.input}
         onChange={handleInputChange}
         value={searchText}
-      ></input>
-      <button className={styles.search_btn}>Search</button>
+      />
 
-      {activeInput ? (
-        <div className={styles.result}>
-          {filteredItems.map((item) => {
+      <ul className={styles.list}>
+        {
+          filtredItems.map((item) => {
             return (
-              <div
-                key={item.text}
-                className={styles.result_item}
-                onClick={() => handleSelectedItem(item)}
-              >
-                <span>{item.text}</span>
-              </div>
-            );
-          })}
-        </div>
-      ) : null}
+              <li key={item.text} onClick={() => handleSelectItem(item)}>
+                {item.text} / {item.rating}
+              </li>
+            )
+          })
+        }
+      </ul>
     </div>
-  );
-};
+  )
+}
 
-export default Search;
+export default Search

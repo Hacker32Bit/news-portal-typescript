@@ -1,8 +1,8 @@
-export interface SearchAutocompliteProps {
+export interface Item {
   text: string;
   rating: number;
 }
 
-export interface SearchAutocompliteListProps {
-  searchAutocomplite: SearchAutocompliteProps[];
+export interface SearchProps {
+  items: Item[]
 }

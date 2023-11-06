@@ -1,14 +1,28 @@
-import { Suspense, lazy } from "react";
+import React, { Suspense, lazy, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+import "../../styles/index.scss";
+
 import Header from "../Header";
+import Loading from "../Loading";
 
 const MainPage = lazy(() => import("../../pages/MainPage"));
 const AboutPage = lazy(() => import("../../pages/AboutPage"));
 const ContactPage = lazy(() => import("../../pages/ContactPage"));
 const NewsPage = lazy(() => import("../../pages/NewsPage"));
 
-export default function App() {
+export enum Theme {
+  LIGHT = "light",
+  DARK = "dark",
+}
+
+const App: React.FC = () => {
+  const [theme, setTheme] = useState<Theme>(Theme.LIGHT)
+
+  const toggleTheme = () => {
+    setTheme(theme === Theme.DARK ? Theme.LIGHT : Theme.DARK);
+  };
+
   const news = [
     {
       id: 1,
@@ -65,9 +79,10 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Header searchAutocomplite={searchAutocomplite} />
-      <div className="app">
-        <Suspense fallback={<div>Loading...</div>}>
+      <div className={`app ${theme}`}>
+        <Header items={searchAutocomplite} />
+        <button onClick={toggleTheme}>TOGGLE</button>
+        <Suspense fallback={<Loading />}>
           <Routes>
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
@@ -78,4 +93,6 @@ export default function App() {
       </div>
     </BrowserRouter>
   );
-}
+};
+
+export default App;
