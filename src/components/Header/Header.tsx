@@ -1,62 +1,77 @@
-import React, { useState } from 'react'
-import styles from './Header.module.css'
-import Search from '../Search'
-import { SearchProps } from '../Search/Search.interface'
-import { Link } from 'react-router-dom'
+import React, { useState } from "react";
+import styles from "./Header.module.css";
+import Search from "components/Search";
+import { SearchProps, HeaderProps } from "components/Search/Search.interface";
+import { Link } from "react-router-dom";
+import useTheme from "theme/useTheme";
+import SignIn from "components/SignIn";
 
-const Header: React.FC<SearchProps> = ({ items }) => {
-  const [isUserMenuOpen, setUserMenuOpen] = useState<boolean>(false)
+const Header: React.FC<HeaderProps> = ({ items, handleSignOut, user }) => {
+  const { toggleTheme } = useTheme();
+  const [isUserMenuOpen, setUserMenuOpen] = useState<boolean>(false);
 
   const toggleUserMenu = (): void => {
     setUserMenuOpen(!isUserMenuOpen);
-  }
+  };
 
   return (
     <header className={styles.header}>
       <nav className={styles.menu}>
         <ul className={styles.mainMenu}>
           <li>
-            <Link to='/'>Home</Link>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to='/about'>About</Link>
+            <Link to="/about">About</Link>
           </li>
           <li>
-            <Link to='/contact'>Contact</Link>
+            <Link to="/contact">Contact</Link>
           </li>
         </ul>
+        <button onClick={toggleTheme}>TOGGLE</button>
 
         <Search items={items} />
 
         <div className={styles.userContainer}>
-          <img
-            src="https://avatars.githubusercontent.com/u/98681?v=4"
-            alt="user name"
-            className={styles.userImage}
-            onClick={toggleUserMenu}
-          />
+          {user ? (
+            <>
+              {user.photoURL ? (
+                <div>
+                  <p>{user.displayName}</p>
+                  <img
+                    src={user.photoURL}
+                    alt="user name"
+                    className={styles.userImage}
+                    onClick={toggleUserMenu}
+                  />
+                </div>
+              ) : (
+                <div>{user.displayName}</div>
+              )}
 
-          {
-            isUserMenuOpen ? (
-              <div className={styles.userMenu}>
-                <ul>
-                  <li>
-                    <a href='#'>Profile</a>
-                  </li>
-                  <li>
-                    <a href='#'>Settings</a>
-                  </li>
-                  <li>
-                    <a href='#'>Sign Out</a>
-                  </li>
-                </ul>
-              </div>
-            ) : null
-          }
+              {isUserMenuOpen ? (
+                <div className={styles.userMenu}>
+                  <ul>
+                    <li>
+                      <a href="#">Profile</a>
+                    </li>
+                    <li>
+                      <a href="#">Settings</a>
+                    </li>
+                    <li>
+                      <button onClick={handleSignOut}>Sign Out</button>
+                    </li>
+                  </ul>
+                </div>
+              ) : null}
+            </>
+          ) : (
+            <SignIn />
+          )}
         </div>
       </nav>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

@@ -1,27 +1,36 @@
-import React, { Suspense, lazy, useState } from "react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { onAuthStateChanged, signOut, User } from "firebase/auth";
 
-import "../../styles/index.scss";
+import "styles/index.scss";
 
-import Header from "../Header";
-import Loading from "../Loading";
+import Header from "components/Header";
+import Loading from "components/Loading";
+import Modal from "components/Modal";
+import useTheme from "../../theme/useTheme";
+import { auth } from "../../firebase"
 
-const MainPage = lazy(() => import("../../pages/MainPage"));
-const AboutPage = lazy(() => import("../../pages/AboutPage"));
-const ContactPage = lazy(() => import("../../pages/ContactPage"));
-const NewsPage = lazy(() => import("../../pages/NewsPage"));
-
-export enum Theme {
-  LIGHT = "light",
-  DARK = "dark",
-}
+const MainPage = lazy(() => import("pages/MainPage"));
+const AboutPage = lazy(() => import("pages/AboutPage"));
+const ContactPage = lazy(() => import("pages/ContactPage"));
+const NewsPage = lazy(() => import("pages/NewsPage"));
 
 const App: React.FC = () => {
-  const [theme, setTheme] = useState<Theme>(Theme.LIGHT)
+  const { theme } = useTheme();
+  const [user, setUser] = useState<User | null>(null)
 
-  const toggleTheme = () => {
-    setTheme(theme === Theme.DARK ? Theme.LIGHT : Theme.DARK);
-  };
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, currentUser => {
+      console.log(currentUser)
+      setUser(currentUser)
+    })
+
+    return unsubscribe;
+  }, [])
+
+  const handleSignOut = () => {
+    signOut(auth).catch(err => console.log(err))
+  }
 
   const news = [
     {
@@ -80,8 +89,7 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <div className={`app ${theme}`}>
-        <Header items={searchAutocomplite} />
-        <button onClick={toggleTheme}>TOGGLE</button>
+        <Header items={searchAutocomplite} handleSignOut={handleSignOut} user={user}/>
         <Suspense fallback={<Loading />}>
           <Routes>
             <Route path="/about" element={<AboutPage />} />
@@ -90,6 +98,10 @@ const App: React.FC = () => {
             <Route path="/" element={<MainPage news={news} />} />
           </Routes>
         </Suspense>
+        {/* <Modal>
+          <h1>Login</h1>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos fugiat voluptatibus ipsum deserunt vel fugit iure. Quidem ex similique quam atque voluptates labore voluptate quae dolorem, beatae, veritatis mollitia! Adipisci.</p>
+        </Modal> */}
       </div>
     </BrowserRouter>
   );
