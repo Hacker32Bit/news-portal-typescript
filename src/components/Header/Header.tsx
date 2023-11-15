@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styles from "./Header.module.css";
 import Search from "components/Search";
-import { SearchProps, HeaderProps } from "components/Search/Search.interface";
+import { HeaderProps } from "components/Search/Search.interface";
 import { Link } from "react-router-dom";
-import useTheme from "theme/useTheme";
+import { useTheme } from "app/providers/ThemeProvider";
 import SignIn from "components/SignIn";
 
 const Header: React.FC<HeaderProps> = ({ items, handleSignOut, user }) => {
